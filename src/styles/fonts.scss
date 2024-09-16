@@ -1,0 +1,89 @@
+@font-face {
+  font-weight: 100;
+  font-family: 'SF Pro Display';
+  font-style: normal;
+  src: local('SF Pro Display Thin'), local('SFProDisplay-Thin'),
+    url('../fonts/SFProDisplay-Thin.woff2') format('woff2'),
+    url('../fonts/SFProDisplay-Thin.woff') format('woff'),
+    url('../fonts/SFProDisplay-Thin.ttf') format('truetype');
+}
+
+@font-face {
+  font-weight: 200;
+  font-family: 'SF Pro Display';
+  font-style: normal;
+  src: local('SF Pro Display Ultralight'), local('SFProDisplay-Ultralight'),
+    url('../fonts/SFProDisplay-Ultralight.woff2') format('woff2'),
+    url('../fonts/SFProDisplay-Ultralight.woff') format('woff'),
+    url('../fonts/SFProDisplay-Ultralight.ttf') format('truetype');
+}
+
+@font-face {
+  font-weight: 300;
+  font-family: 'SF Pro Display';
+  font-style: normal;
+  src: local('SF Pro Display Light'), local('SFProDisplay-Light'),
+    url('../fonts/SFProDisplay-Light.woff2') format('woff2'),
+    url('../fonts/SFProDisplay-Light.woff') format('woff'),
+    url('../fonts/SFProDisplay-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-weight: 400;
+  font-family: 'SF Pro Display';
+  font-style: normal;
+  src: local('SF Pro Display Regular'), local('SFProDisplay-Regular'),
+    url('../fonts/SFProDisplay-Regular.woff2') format('woff2'),
+    url('../fonts/SFProDisplay-Regular.woff') format('woff'),
+    url('../fonts/SFProDisplay-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-weight: 500;
+  font-family: 'SF Pro Display';
+  font-style: normal;
+  src: local('SF Pro Display Medium'), local('SFProDisplay-Medium'),
+    url('../fonts/SFProDisplay-Medium.woff2') format('woff2'),
+    url('../fonts/SFProDisplay-Medium.woff') format('woff'),
+    url('../fonts/SFProDisplay-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-weight: 600;
+  font-family: 'SF Pro Display';
+  font-style: normal;
+  src: local('SF Pro Display Semibold'), local('SFProDisplay-Semibold'),
+    url('../fonts/SFProDisplay-Semibold.woff2') format('woff2'),
+    url('../fonts/SFProDisplay-Semibold.woff') format('woff'),
+    url('../fonts/SFProDisplay-Semibold.ttf') format('truetype');
+}
+
+@font-face {
+  font-weight: 700;
+  font-family: 'SF Pro Display';
+  font-style: normal;
+  src: local('SF Pro Display Bold'), local('SFProDisplay-Bold'),
+    url('../fonts/SFProDisplay-Bold.woff2') format('woff2'),
+    url('../fonts/SFProDisplay-Bold.woff') format('woff'),
+    url('../fonts/SFProDisplay-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-weight: 800;
+  font-family: 'SF Pro Display';
+  font-style: normal;
+  src: local('SF Pro Display Heavy'), local('SFProDisplay-Heavy'),
+    url('../fonts/SFProDisplay-Heavy.woff2') format('woff2'),
+    url('../fonts/SFProDisplay-Heavy.woff') format('woff'),
+    url('../fonts/SFProDisplay-Heavy.ttf') format('truetype');
+}
+
+@font-face {
+  font-weight: 900;
+  font-family: 'SF Pro Display';
+  font-style: normal;
+  src: local('SF Pro Display Black'), local('SFProDisplay-Black'),
+    url('../fonts/SFProDisplay-Black.woff2') format('woff2'),
+    url('../fonts/SFProDisplay-Black.woff') format('woff'),
+    url('../fonts/SFProDisplay-Black.ttf') format('truetype');
+}

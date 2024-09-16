@@ -1,0 +1,24 @@
+@import './vars.scss';
+@import './reset.scss';
+@import './fonts.scss';
+
+html,
+body {
+  font-family: 'SF Pro Display', Arial, sans-serif;
+}
+
+#page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  min-height: 100vh;
+  background-color: $light-blue-color;
+
+  .page-wrapper {
+    width: 1440px;
+    margin-top: 80px;
+    padding: 0 40px;
+    background-color: #fff;
+  }
+}
