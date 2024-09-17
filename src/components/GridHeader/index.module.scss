@@ -1,0 +1,40 @@
+@import '../../styles/vars.scss';
+
+.component {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  min-height: 65px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.48;
+  color: $textsecondary-blue-color;
+
+  & div:nth-child(1) {
+    width: 54px;
+  }
+
+  & div:nth-child(2) {
+    width: 88px;
+  }
+
+  & div:nth-child(3) {
+    width: 129px;
+  }
+
+  & div:nth-child(4) {
+    width: 325px;
+  }
+
+  & div:nth-child(5) {
+    width: 214px;
+  }
+
+  & div:nth-child(6) {
+    width: 461px;
+  }
+
+  & div:nth-child(7) {
+    width: 110px;
+  }
+}

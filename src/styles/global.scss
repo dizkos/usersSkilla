@@ -16,8 +16,17 @@ body {
   background-color: $light-blue-color;
 
   .page-wrapper {
-    width: 1440px;
     margin-top: 80px;
+    width: 1440px;
+  }
+
+  .page-filters {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .table {
+    margin-top: 16px;
     padding: 0 40px;
     background-color: #fff;
   }

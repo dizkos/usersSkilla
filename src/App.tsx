@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import GridItem from './components/GridRow';
 import { useGetUserListMutation } from './store/listUsersApi';
+import GridHeader from './components/GridHeader';
+import DropdownMenu from './components/DropdownMenu';
 
 function App() {
   const [getUserList, { data, isLoading, isError }] = useGetUserListMutation();
@@ -14,13 +16,24 @@ function App() {
   return (
     <div id="page">
       <div className="page-wrapper">
+        <div className="page-filters">
+          <DropdownMenu />
+          <DropdownMenu isDate={true} />
+        </div>
         <div className="table">
           {isError && 'Ошибка с загрузкой данных, попробуйте перезагрузить'}
-          {isLoading
-            ? 'Загрузка ...'
-            : data?.map((elem: any, key: number) => (
-                <GridItem key={key} {...elem} />
-              ))}
+          {isLoading ? (
+            'Загрузка ...'
+          ) : (
+            <div>
+              <div>
+                <GridHeader />
+                {data?.map((elem: any, key: number) => (
+                  <GridItem key={key} {...elem} />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

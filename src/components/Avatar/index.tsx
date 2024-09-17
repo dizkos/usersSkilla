@@ -8,8 +8,8 @@ const Avatar = ({ src }: Props) => {
   const avatar = src ? src : './images/non_avatar.png';
 
   return (
-    <div className={styles.component}>
-      <img src={avatar} alt="Аватар" />
+    <div >
+      <img src={avatar} alt="Аватар" className={styles.component}/>
     </div>
   );
 };
