@@ -5,6 +5,7 @@
   flex-flow: row nowrap;
   align-items: center;
   min-height: 65px;
+  position: relative;
   border-top: 1px solid $light-green-color;
 
   & div:nth-child(1) {

@@ -3,7 +3,8 @@ import StatusCalling from '../StatusCalling';
 import styles from './index.module.scss';
 import { StatusCallingProps } from '../../interfaces/types';
 import { format } from 'date-fns';
-import { useEffect } from 'react';
+import Player from '../Player';
+import { useState } from 'react';
 
 interface Props {
   status: StatusCallingProps['status'];
@@ -15,7 +16,7 @@ interface Props {
   from_number: string;
   time: string;
   errors: string[];
-  record: string
+  record: string;
 }
 
 const GridItem = ({
@@ -28,12 +29,16 @@ const GridItem = ({
   from_number,
   time,
   errors,
-  record
+  record,
 }: Props) => {
-
-  
+  const [onMouseUnderElement, setOnMouseUnderElement] =
+    useState<boolean>(false);
   return (
-    <div className={styles.component}>
+    <div
+      className={styles.component}
+      onMouseEnter={() => setOnMouseUnderElement(true)}
+      onMouseLeave={() => setOnMouseUnderElement(false)}
+    >
       <StatusCalling status={status} in_out={in_out} />
       <div>{format(new Date(date), 'HH:mm')}</div>
       <Avatar src={avatar} />
@@ -41,6 +46,7 @@ const GridItem = ({
       <div>{line_name}</div>
       <div>{errors[0]}</div>
       <div>{time} сек</div>
+      {record && <Player record={record} onMouseUnderElement={onMouseUnderElement}/>}
     </div>
   );
 };
