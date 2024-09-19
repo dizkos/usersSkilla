@@ -1,37 +1,65 @@
 @import '../../styles/vars.scss';
 
-.component {
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.48;
-  color: $textsecondary-blue-color;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
+.iconCalendar {
+  width: 18px;
+  height: 18px;
+  > span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
 
+.wpapperDropdown {
   svg {
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    fill: currentColor;
   }
+}
 
-  .iconCalendar {
-    width: 18px;
-    height: 18px;
-  }
+button {
+  margin: 0;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.component {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  color: $textsecondary-blue-color;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.48;
+  vertical-align: middle;
+
   .iconWrapperDate {
     display: inline-block;
     width: 16px;
     height: 24px;
-    color: $blue-color;
+    color: $dark-blue-color;
+
+    &:disabled {
+      color: $light2-blue-color;
+      cursor: default;
+    }
   }
+
   .iconwrapperType {
     display: inline-block;
     width: 18px;
     height: 21px;
 
     svg {
-      transition: all 0.3s ease;
       transform: rotate(0deg);
+      transition: all 0.3s ease;
     }
 
     &.open {
@@ -40,27 +68,113 @@
       }
     }
   }
+
+  > div {
+    display: inline-flex;
+    gap: 8px;
+    vertical-align: middle;
+    cursor: pointer;
+
+    &:hover {
+      color: $blue-color;
+    }
+  }
 }
 
 .wpapperDropdown {
   position: relative;
 
   ul {
-    list-style-type: none;
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.08);
-    border-radius: 8px;
-    margin-top: 12px;
+    position: absolute;
+    top: 20px;
     min-width: 133px;
+    margin-top: 12px;
+    color: $dark-color;
+    z-index: 99;
     font-size: 12px;
     line-height: 18px;
-    color: $dark-color;
+    list-style-type: none;
+    background-color: $white-color;
+    border-radius: 8px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.08);
     li {
       padding: 7px 12px;
+      button {
+        display: block;
+      }
     }
   }
-  .menu {
-    top: 20px;
-    background-color: $white-color;
+
+  .menuType {
+    cursor: pointer;
+    overflow: hidden;
+    
+    li {
+      transition: all 0.3s ease;
+      &:hover {
+        background-color: $dark-blue-color;
+      }
+    }
+  }
+
+  .menuDate {
+    right: 0;
+    width: 239px;
+    font-size: 14px;
+    line-height: 28px;
+
+    li {
+      cursor: pointer;
+      transition: all 0.3s ease;
+      &:first-child {
+        border-radius: 8px 8px 0 0;
+        overflow: hidden;
+      }
+      &:not(:last-child):hover {
+        background-color: $dark-blue-color;
+      }
+    }
+    
+    .checkDateBlock {
+      > div:first-child {
+        color: $text-dark-color;
+      }
+      > div:nth-child(2) {
+        > div {
+          width: 70px;
+
+          input {
+            width: inherit;
+            border: 0;
+            &:focus {
+              outline: none;
+            }
+          }
+        }
+        > span {
+          margin-left: auto;
+        }
+      }
+    }
+    .inputsDateWrapper {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      flex-wrap: nowrap;
+    }
+  }
+}
+
+.active {
+  pointer-events: none;
+  color: $blue-color;
+}
+
+:global {
+  .react-datepicker__tab-loop {
     position: absolute;
+  }
+  .react-datepicker__triangle {
+    display: none;
   }
 }

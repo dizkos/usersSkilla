@@ -1,9 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-interface GetUserListParams {
-  dateStart: string;
-  dateEnd: string;
-}
+import { getListFromDataProps } from '../interfaces/types';
 
 export const usersApi = createApi({
   reducerPath: 'usersList',
@@ -14,10 +10,12 @@ export const usersApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getUserList: builder.mutation<any, GetUserListParams>({
-      query({ dateStart, dateEnd }) {
+    getUserList: builder.mutation<any, getListFromDataProps>({
+      query({ dateStart, dateEnd, in_out, sort_by }) {
+        const type = in_out !== undefined ? `&in_out=${in_out}` : ''
+        const sort = sort_by ? `&sort_by=${sort_by}` : ''
         return {
-          url: `getList?date_start=${dateStart}&date_end=${dateEnd}`,
+          url: `getList?date_start=${dateStart}&date_end=${dateEnd}${type}${sort}`,
           method: 'POST',
         };
       },

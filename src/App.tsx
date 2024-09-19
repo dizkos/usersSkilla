@@ -1,24 +1,35 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import GridItem from './components/GridRow';
 import { useGetUserListMutation } from './store/listUsersApi';
 import GridHeader from './components/GridHeader';
 import DropdownMenu from './components/DropdownMenu';
+import { getListFromDataProps } from './interfaces/types';
 
 function App() {
   const [getUserList, { data, isLoading, isError }] = useGetUserListMutation();
 
+  const [dataForRequest, setDataForRequest] = useState<getListFromDataProps>({
+    dateStart: '2024-09-13',
+    dateEnd: '2024-09-15',
+  });
+
   useEffect(() => {
-    getUserList({ dateStart: '2024-09-13', dateEnd: '2024-09-15' });
-  }, [getUserList]);
+    getUserList(dataForRequest);
+  }, [getUserList, dataForRequest]);
 
-  console.log(data);
-
+  console.log(data)
   return (
     <div id="page">
       <div className="page-wrapper">
         <div className="page-filters">
-          <DropdownMenu />
-          <DropdownMenu isDate={true} />
+          <DropdownMenu
+            setDataForRequest={setDataForRequest}
+            typeDropdown="typeCalling"
+          />
+          <DropdownMenu
+            setDataForRequest={setDataForRequest}
+            typeDropdown="date"
+          />
         </div>
         <div className="table">
           {isError && 'Ошибка с загрузкой данных, попробуйте перезагрузить'}
@@ -27,8 +38,8 @@ function App() {
           ) : (
             <div>
               <div>
-                <GridHeader />
-                {data?.map((elem: any, key: number) => (
+                <GridHeader setDataForRequest={setDataForRequest} />
+                {data?.map((elem: any, key: number, record: string) => (
                   <GridItem key={key} {...elem} />
                 ))}
               </div>

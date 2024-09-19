@@ -3,6 +3,7 @@ import StatusCalling from '../StatusCalling';
 import styles from './index.module.scss';
 import { StatusCallingProps } from '../../interfaces/types';
 import { format } from 'date-fns';
+import { useEffect } from 'react';
 
 interface Props {
   status: StatusCallingProps['status'];
@@ -14,6 +15,7 @@ interface Props {
   from_number: string;
   time: string;
   errors: string[];
+  record: string
 }
 
 const GridItem = ({
@@ -26,7 +28,10 @@ const GridItem = ({
   from_number,
   time,
   errors,
+  record
 }: Props) => {
+
+  
   return (
     <div className={styles.component}>
       <StatusCalling status={status} in_out={in_out} />
