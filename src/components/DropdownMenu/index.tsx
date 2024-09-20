@@ -9,7 +9,13 @@ import {
 } from 'date-fns';
 
 import { ReactSVG } from 'react-svg';
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import classNames from 'classnames';
 import { getListFromDataProps } from '../../interfaces/types';
 import DatePicker from 'react-datepicker';
@@ -24,7 +30,9 @@ interface Props {
   isDate?: boolean;
   typeDropdown?: 'typeCalling' | 'date';
   setDataForRequest: Dispatch<SetStateAction<getListFromDataProps>>;
-  sortBy?: getListFromDataProps['sort_by']
+  sortBy?: getListFromDataProps['sort_by'];
+  setIsFiltered: Dispatch<SetStateAction<boolean>>;
+  isFiltered?: boolean;
 }
 
 const DropdownMenu = ({
@@ -32,10 +40,15 @@ const DropdownMenu = ({
   setDataForRequest,
   typeDropdown,
   sortBy,
+  setIsFiltered,
+  isFiltered,
 }: Props) => {
-
   const cn = classNames;
+
   const menuRef = useRef<HTMLUListElement>(null);
+  const startDateElement = useRef<HTMLDivElement>(null);
+  const endDateElement = useRef<HTMLDivElement>(null);
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [fullData, setFullData] = useState(new Date());
   const [startDate, setStartDate] = useState<Date | null>(null);
@@ -45,18 +58,19 @@ const DropdownMenu = ({
   const [dateFormated, setDateFormated] = useState<string>(
     format(new Date(), 'dd.MM')
   );
-  
+
   const dataNow = format(new Date(), 'dd.MM') === dateFormated;
 
   const handlerClick = () => {
-    if (typeDropdown === 'typeCalling' || typeDropdown === 'date') {
-      setIsOpen(!isOpen);
-    } else if (sortBy) {
+    if (sortBy) {
       setDataForRequest((data: getListFromDataProps) => ({
         ...data,
-        sort_by: sortBy
+        sort_by: sortBy,
       }));
+      setIsFiltered(true);
     }
+
+    setIsOpen(!isOpen);
   };
 
   const handleMinusDay = () => {
@@ -70,6 +84,7 @@ const DropdownMenu = ({
       dateEnd: format(newDate, 'yyyy-MM-dd'),
     }));
     setDateChecked(null);
+    setIsFiltered(true);
   };
 
   const handlePlusDay = () => {
@@ -83,6 +98,7 @@ const DropdownMenu = ({
       dateEnd: format(newDate, 'yyyy-MM-dd'),
     }));
     setDateChecked(null);
+    setIsFiltered(true);
   };
 
   const handleСhangeType = (in_out: TypeCall) => {
@@ -93,6 +109,7 @@ const DropdownMenu = ({
       return;
     }
     setType(in_out !== undefined && in_out === 0 ? 'Входящие' : 'Исходящие');
+    setIsFiltered(true);
   };
 
   const handleChangePeriod = (period: Period) => {
@@ -101,6 +118,7 @@ const DropdownMenu = ({
     setStartDate(null);
     setEndDate(null);
     setDateChecked(period);
+    setIsFiltered(true);
     switch (period) {
       case '3days':
         const startDate = subDays(new Date(), 3);
@@ -164,18 +182,36 @@ const DropdownMenu = ({
     setDateFormated(`${formatStartDate} - ${formatEndDate}`);
     setDateChecked(null);
     setIsOpen(false);
-  }, [startDate, endDate, setDataForRequest]);
+    setIsFiltered(true);
+  }, [startDate, endDate, setDataForRequest, setIsFiltered]);
 
   useEffect(() => {
     const checkingClickByDocument = (event: MouseEvent) => {
+      const menuRefCurrent = menuRef.current;
+      const startDateCurrent = startDateElement.current;
+      const endDateCurrent = endDateElement.current;
+      const e = event.target as HTMLUListElement;
+
+      if (!menuRefCurrent || !startDateCurrent || !endDateCurrent) return;
+
+      const startCalendar = startDateCurrent.querySelector(
+        '.react-datepicker-popper'
+      );
+      const endCalendar = endDateCurrent.querySelector(
+        '.react-datepicker-popper'
+      );
+
       if (
-        menuRef.current &&
         isOpen &&
-        !menuRef.current.contains(event.target as HTMLUListElement)
+        !menuRefCurrent.contains(e) &&
+        startCalendar?.contains(e) &&
+        !endCalendar?.contains(e)
       ) {
         setIsOpen(false);
       }
     };
+
+
     setTimeout(
       () => document.addEventListener('click', checkingClickByDocument),
       0
@@ -183,6 +219,13 @@ const DropdownMenu = ({
 
     return () => document.removeEventListener('click', checkingClickByDocument);
   }, [menuRef, isOpen]);
+
+  useEffect(() => {
+    if (isFiltered === false) {
+      setDateFormated(format(new Date(), 'dd.MM'));
+      setType(title)
+    }
+  }, [isFiltered, title]);
 
   if (typeDropdown === 'date') {
     return (
@@ -221,23 +264,28 @@ const DropdownMenu = ({
               <div className={styles.checkDateBlock}>
                 <div>Указать даты</div>
                 <div className={styles.inputsDateWrapper}>
-                  <DatePicker
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
-                    dateFormat="dd-MM-yyyy"
-                    locale={ru}
-                    placeholderText="__.__.____"
-                    maxDate={endDate ? endDate : undefined}
-                  />
+                  <div ref={startDateElement}>
+                    <DatePicker
+                      selected={startDate}
+                      onChange={(date) => setStartDate(date)}
+                      dateFormat="dd-MM-yyyy"
+                      locale={ru}
+                      placeholderText="__.__.____"
+                      maxDate={endDate ? endDate : undefined}
+                    />
+                  </div>
                   -
-                  <DatePicker
-                    selected={endDate}
-                    onChange={(date) => setEndDate(date)}
-                    dateFormat="dd-MM-yyyy"
-                    locale={ru}
-                    placeholderText="__.__.____"
-                    minDate={startDate ? startDate : undefined}
-                  />
+                  <div ref={endDateElement}>
+                    {' '}
+                    <DatePicker
+                      selected={endDate}
+                      onChange={(date) => setEndDate(date)}
+                      dateFormat="dd-MM-yyyy"
+                      locale={ru}
+                      placeholderText="__.__.____"
+                      minDate={startDate ? startDate : undefined}
+                    />
+                  </div>
                   <ReactSVG
                     src="./images/icon-calendar.svg"
                     wrapper="span"
@@ -281,7 +329,7 @@ const DropdownMenu = ({
   return (
     <div className={styles.wpapperDropdown}>
       <div className={styles.component} onClick={handlerClick}>
-        {title}
+        <span>{title}</span>
         <span className={styles.iconwrapperType}>
           <ReactSVG src="./images/dropdowarrow.svg" wrapper="svg" />
         </span>

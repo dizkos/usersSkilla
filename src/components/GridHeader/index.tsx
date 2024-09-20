@@ -5,9 +5,15 @@ import { getListFromDataProps } from '../../interfaces/types';
 
 interface Props {
   setDataForRequest: Dispatch<SetStateAction<getListFromDataProps>>;
+  setIsFiltered: Dispatch<SetStateAction<boolean>>;
+  isFiltered: boolean;
 }
 
-const GridHeader = ({ setDataForRequest }: Props) => {
+const GridHeader = ({
+  setDataForRequest,
+  setIsFiltered,
+  isFiltered,
+}: Props) => {
   return (
     <div className={styles.component}>
       <div>Тип</div>
@@ -15,6 +21,8 @@ const GridHeader = ({ setDataForRequest }: Props) => {
         title="Время"
         setDataForRequest={setDataForRequest}
         sortBy="date"
+        setIsFiltered={setIsFiltered}
+        isFiltered={isFiltered}
       />
       <div>Сотрудник</div>
       <div>Звонок</div>
@@ -24,6 +32,8 @@ const GridHeader = ({ setDataForRequest }: Props) => {
         title="Длительность"
         setDataForRequest={setDataForRequest}
         sortBy="duration"
+        setIsFiltered={setIsFiltered}
+        isFiltered={isFiltered}
       />
     </div>
   );

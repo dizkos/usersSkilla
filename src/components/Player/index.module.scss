@@ -13,7 +13,9 @@
   pointer-events: none;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  gap: 12px;
   &.active {
     opacity: 1;
     visibility: visible;
@@ -23,5 +25,68 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
+  }
+
+  .play {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: $white-color;
+    color: $dark-blue-color;
+    & div {
+      width: inherit;
+      height: inherit;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    &.playActive {
+      color: $blue-color;
+    }
+  }
+  .icon {
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    & div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: inherit;
+      width: inherit;
+    }
+  }
+
+  > span {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 100%;
+  }
+  .show {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .hide {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .range {
+    background-color: $dark-blue-color;
+    width: 164px;
+    height: 4px;
+    border-radius: 5px;
+    position: relative;
+    > div {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      background-color: $blue-color;
+      border-radius: 5px;
+    }
   }
 }

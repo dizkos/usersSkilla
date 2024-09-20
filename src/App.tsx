@@ -4,47 +4,75 @@ import { useGetUserListMutation } from './store/listUsersApi';
 import GridHeader from './components/GridHeader';
 import DropdownMenu from './components/DropdownMenu';
 import { getListFromDataProps } from './interfaces/types';
+import { ReactSVG } from 'react-svg';
+import { format } from 'date-fns';
 
 function App() {
+  const defautdIntervalDates = {
+    dateStart: format(new Date(), 'yyyy-MM-dd'),
+    dateEnd: format(new Date(), 'yyyy-MM-dd'),
+  };
   const [getUserList, { data, isLoading, isError }] = useGetUserListMutation();
-
-  const [dataForRequest, setDataForRequest] = useState<getListFromDataProps>({
-    dateStart: '2024-09-13',
-    dateEnd: '2024-09-15',
-  });
+  const [isFiltered, setIsFiltered] = useState<boolean>(false);
+  const [dataForRequest, setDataForRequest] =
+    useState<getListFromDataProps>(defautdIntervalDates);
 
   useEffect(() => {
     getUserList(dataForRequest);
   }, [getUserList, dataForRequest]);
 
-  console.log(data)
+  const reverseFiltres = () => {
+    setDataForRequest(defautdIntervalDates);
+    setIsFiltered(false);
+  };
+
   return (
     <div id="page">
       <div className="page-wrapper">
         <div className="page-filters">
-          <DropdownMenu
-            setDataForRequest={setDataForRequest}
-            typeDropdown="typeCalling"
-          />
+          <div>
+            <DropdownMenu
+              setDataForRequest={setDataForRequest}
+              typeDropdown="typeCalling"
+              setIsFiltered={setIsFiltered}
+              isFiltered={isFiltered}
+            />
+            {isFiltered && (
+              <button onClick={reverseFiltres}>
+                Сбросить фильтры <ReactSVG src="./images/cross.svg" />
+              </button>
+            )}
+          </div>
+
           <DropdownMenu
             setDataForRequest={setDataForRequest}
             typeDropdown="date"
+            setIsFiltered={setIsFiltered}
+            isFiltered={isFiltered}
           />
         </div>
         <div className="table">
           {isError && 'Ошибка с загрузкой данных, попробуйте перезагрузить'}
-          {isLoading ? (
-            'Загрузка ...'
-          ) : (
+          <div>
             <div>
-              <div>
-                <GridHeader setDataForRequest={setDataForRequest} />
-                {data?.map((elem: any, key: number, record: string) => (
+              <GridHeader
+                setDataForRequest={setDataForRequest}
+                setIsFiltered={setIsFiltered}
+                isFiltered={isFiltered}
+              />
+              {isLoading ? (
+                <ReactSVG
+                  className="loaderWrapper"
+                  src="./images/loader.svg"
+                  wrapper="div"
+                />
+              ) : (
+                data?.map((elem: any, key: number, record: string) => (
                   <GridItem key={key} {...elem} />
-                ))}
-              </div>
+                ))
+              )}
             </div>
-          )}
+          </div>
         </div>
       </div>
     </div>

@@ -1,0 +1,31 @@
+@import '../../styles/vars.scss';
+
+.component {
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 14px;
+  line-height: 1;
+  font-weight: 400;
+  display: inline-flex;
+
+  &.excellent {
+    color: $green-color;
+    border: 1px solid $green-color;
+    background-color: $light-green-color;
+  }
+  &.good {
+    color: $dark-color;
+    border: 1px solid $dark-blue-color;
+    background-color: $light2-blue-color;
+  }
+  &.bad {
+    color: $red-color;
+    border: 1px solid $red-color;
+    background-color: $light-red-color;
+  }
+  &.text {
+    color: $red-color;
+    line-height: 1.4;
+    padding: 0;
+  }
+}

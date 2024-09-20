@@ -39,7 +39,7 @@ button {
   font-size: 14px;
   line-height: 1.48;
   vertical-align: middle;
-
+  
   .iconWrapperDate {
     display: inline-block;
     width: 16px;
@@ -59,7 +59,6 @@ button {
 
     svg {
       transform: rotate(0deg);
-      transition: all 0.3s ease;
     }
 
     &.open {
@@ -82,6 +81,7 @@ button {
 }
 
 .wpapperDropdown {
+  cursor: pointer;
   position: relative;
 
   ul {
@@ -108,7 +108,7 @@ button {
   .menuType {
     cursor: pointer;
     overflow: hidden;
-    
+
     li {
       transition: all 0.3s ease;
       &:hover {
@@ -134,7 +134,7 @@ button {
         background-color: $dark-blue-color;
       }
     }
-    
+
     .checkDateBlock {
       > div:first-child {
         color: $text-dark-color;

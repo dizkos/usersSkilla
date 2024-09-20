@@ -3,6 +3,7 @@ import { Howl } from 'howler';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import classNames from 'classnames';
+import { ReactSVG } from 'react-svg';
 
 interface Props {
   record: string;
@@ -14,7 +15,9 @@ const Player = ({ record, onMouseUnderElement }: Props) => {
   const soundRef = useRef<Howl | null>(null);
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
+  const [durationAudio, setDurationAudio] = useState<number>(0);
+  const [isPlay, setIsPlay] = useState<boolean>(false);
+  const [currentTime, setCurrentTime] = useState<number>(0);
   const getAudioFile = async (record: string) => {
     try {
       const response = await axios.post(
@@ -71,6 +74,11 @@ const Player = ({ record, onMouseUnderElement }: Props) => {
       soundRef.current = new Howl({
         src: [linkToFile.current],
         html5: true,
+        format: ['mp3'],
+        onload: () => {
+          const duration = soundRef.current?.duration() || 0;
+          setDurationAudio(duration);
+        },
       });
     }
 
@@ -80,8 +88,31 @@ const Player = ({ record, onMouseUnderElement }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [linkToFile.current]);
 
+  const updateProgress = () => {
+    if (soundRef.current) {
+      const current = soundRef.current.seek();
+      setCurrentTime(current);
+      requestAnimationFrame(updateProgress);
+    }
+  };
+
   const playAudio = () => {
+    setIsPlay(true);
     soundRef.current?.play();
+    requestAnimationFrame(updateProgress);
+  };
+
+  const stopAudio = () => {
+    setIsPlay(false);
+    soundRef.current?.stop();
+  };
+
+  const downloadAudio = () => {
+    if (!linkToFile.current) return;
+    const element = document.createElement('a');
+    element.href = linkToFile.current;
+    element.download = 'audio.mp3';
+    element.click();
   };
 
   return (
@@ -94,7 +125,30 @@ const Player = ({ record, onMouseUnderElement }: Props) => {
       {isLoading ? (
         <img src="./images/loader.svg" alt="Loader" />
       ) : (
-        <button onClick={playAudio}>Play</button>
+        <>
+          <span>{durationAudio}</span>
+          <button
+            onClick={playAudio}
+            className={classNames(styles.play, isPlay && styles.playActive)}
+          >
+            <ReactSVG src="./images/play.svg" />
+          </button>
+          <div className={styles.range}>
+            <div style={{width : (currentTime * 100 / durationAudio) || 0}} />
+          </div>
+          <button className={styles.icon} onClick={downloadAudio}>
+            <ReactSVG src="./images/download.svg" />
+          </button>
+          <button
+            className={classNames(
+              styles.icon,
+              isPlay ? styles.show : styles.hide
+            )}
+            onClick={stopAudio}
+          >
+            <ReactSVG src="./images/cross.svg" />
+          </button>
+        </>
       )}
     </div>
   );

@@ -4,7 +4,9 @@ import styles from './index.module.scss';
 import { StatusCallingProps } from '../../interfaces/types';
 import { format } from 'date-fns';
 import Player from '../Player';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import { evaluation, source } from '../../data/data';
+import Evaluation from '../Evaluation';
 
 interface Props {
   status: StatusCallingProps['status'];
@@ -33,6 +35,15 @@ const GridItem = ({
 }: Props) => {
   const [onMouseUnderElement, setOnMouseUnderElement] =
     useState<boolean>(false);
+
+  const randomSource = useRef<number>(
+    Math.floor(Math.random() * source.length)
+  );
+
+  const randomEvaluation = useRef<number>(
+    Math.floor(Math.random() * evaluation.length)
+  );
+
   return (
     <div
       className={styles.component}
@@ -43,10 +54,12 @@ const GridItem = ({
       <div>{format(new Date(date), 'HH:mm')}</div>
       <Avatar src={avatar} />
       <div>{to_number ? to_number : from_number}</div>
-      <div>{line_name}</div>
-      <div>{errors[0]}</div>
+      <div>{source[randomSource.current]}</div>
+      <Evaluation text={evaluation[randomEvaluation.current]} />
       <div>{time} сек</div>
-      {record && <Player record={record} onMouseUnderElement={onMouseUnderElement}/>}
+      {record && (
+        <Player record={record} onMouseUnderElement={onMouseUnderElement} />
+      )}
     </div>
   );
 };
